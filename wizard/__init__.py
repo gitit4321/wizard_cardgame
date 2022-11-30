@@ -1,6 +1,6 @@
 import os
-
 from flask import Flask, render_template
+# from game.deck import Deck
 
 
 def create_app(test_config=None):
@@ -24,15 +24,19 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/')
-    def index():
-        return render_template('index.html')
+    # @app.route('/')
+    # def index():
+    #     print("in __init__.py")
+    #     return render_template('index.html')
 
     from . import db
     db.init_app(app)
 
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import game
+    app.register_blueprint(game.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
