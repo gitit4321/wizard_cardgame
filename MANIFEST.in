@@ -1,0 +1,5 @@
+include wizard/schema.sql
+graft wizard/static
+graft wizard/templates
+graft wizard/wizard_game
+global-exclude *.pyc
