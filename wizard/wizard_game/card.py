@@ -9,9 +9,10 @@ class Card:
         self.suit = suit
 
     def __repr__(self):
-        if self.suit is None:
-            return f"{self.__class__.__name__} ({self.rank})"
-        return f"{self.__class__.__name__} ({self.rank}, {self.suit})"
+        output = f"{self.__class__.__name__}({self.rank}"
+        if self.suit is not None:
+            output += f", {self.suit}"
+        return output + ")"
 
     def __str__(self):
         output = f"{rank_map.get(self.rank, self.rank)}"
