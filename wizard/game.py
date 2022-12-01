@@ -1,3 +1,4 @@
+from wizard.wizard_game.deck import Deck
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -100,3 +101,28 @@ def delete(id):
     db.execute('DELETE FROM game WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('game.index'))
+
+
+@bp.route('/play', methods=('GET', 'POST'))
+@login_required
+def play():
+    deck = Deck()
+    # print(deck)
+    # get_game(id)
+    # db = get_db()
+    # db.execute('DELETE FROM game WHERE id = ?', (id,))
+    # db.commit()
+    return render_template('game/play.html', deck=deck)
+    # return render_template('game/play.html')
+
+# @bp.route('/<int:id>/play', methods=('GET', 'POST'))
+# @login_required
+# def play(id):
+#     deck = Deck()
+#     print(deck)
+#     # get_game(id)
+#     # db = get_db()
+#     # db.execute('DELETE FROM game WHERE id = ?', (id,))
+#     # db.commit()
+#     # return render_template('game/play.html', deck=deck)
+#     return render_template('game/play.html')

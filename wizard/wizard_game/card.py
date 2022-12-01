@@ -1,28 +1,24 @@
-suits = ["Clubs", "Diamonds", "Spades", "Hearts"]
-values = ["Jester", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace", "Wizard"]
-
-
 class Card:
 
-    def __init__(self, val, suit=None):
-        self.val = val
+    def __init__(self, rank, suit=None):
+        self.rank = rank
         self.suit = suit
 
     def __repr__(self):
-        if self.suit or self.suit == 0:
-            return f"{self.__class__.__name__} ({values[self.val]}, {suits[self.suit]}) : ({self.val}, {self.suit})"
-        return f"{self.__class__.__name__} ({values[self.val]}) : ({self.val}, {self.suit})"
+        if self.suit is None:
+            return f"{self.__class__.__name__} ({self.rank})"
+        return f"{self.__class__.__name__} ({self.rank}, {self.suit})"
 
     def __str__(self):
-        if self.suit or self.suit == 0:
-            return f"{values[self.val]} of {suits[self.suit]}"
-        return f"{values[self.val]}"
+        if self.suit is None:
+            return f"{self.rank}"
+        return f"{self.rank} of {self.suit}"
 
-    def __eq__(self, other_obj):
-        return self.val == other_obj.val
+    # def __eq__(self, other_obj):
+    #     return self.rank == other_obj.rank
 
-    def __lt__(self, other_obj):
-        return self.val < other_obj.val
+    # def __lt__(self, other_obj):
+    #     return self.rank < other_obj.rank
 
 
 if __name__ == "__main__":
