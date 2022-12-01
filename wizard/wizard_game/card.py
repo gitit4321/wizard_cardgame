@@ -20,19 +20,15 @@ class Card:
             output += f" of {suit_map[self.suit]}"
         return output
 
-    # def __eq__(self, other_obj):
-    #     return self.rank == other_obj.rank
-
-    # def __lt__(self, other_obj):
-    #     return self.rank < other_obj.rank
-
 
 if __name__ == "__main__":
-    c = Card(0)
-    c2 = Card(14, 3)
-    print(str(c))
-    print(repr(c))
+    c1 = Card('j', 'clubs')
+    c2 = Card('a', 'clubs')
+    # c3 = Card('a', 'clubs')
+    print(str(c1))
+    print(repr(c1))
     print(str(c2))
     print(repr(c2))
-    print(c == c2)
-    print(c > c2)
+    print(c1 == c2)
+    print(c1 < c2)
+    print(c1 > c2)
