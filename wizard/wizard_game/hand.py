@@ -14,6 +14,7 @@ class Hand:
         self.hand.append(card)
 
     def play_card(self, card: Card) -> Card:
+        # user interacts with this so create exception class
         pass
 
     def compare_cards(self, card1: Card, card2: Card) -> int:
