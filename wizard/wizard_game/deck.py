@@ -35,9 +35,6 @@ class Deck:
             yield self.deck[i]
             i += 1
 
-    # def __next__(self):
-    #     return
-
     def shuffle(self):
         shuffle(self.deck)
 
