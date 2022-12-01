@@ -1,3 +1,7 @@
+rank_map = {'je': 'Jester', 'j': 'Jack', 'q': 'Queen', 'k': 'King', 'a': 'Ace', 'w': 'Wizard'}
+suit_map = {'clubs': 'Clubs', 'diams': 'Diamonds', 'spades': 'Spades', 'hearts': 'Hearts'}
+
+
 class Card:
 
     def __init__(self, rank, suit=None):
@@ -10,9 +14,10 @@ class Card:
         return f"{self.__class__.__name__} ({self.rank}, {self.suit})"
 
     def __str__(self):
-        if self.suit is None:
-            return f"{self.rank}"
-        return f"{self.rank} of {self.suit}"
+        output = f"{rank_map.get(self.rank, self.rank)}"
+        if self.suit is not None:
+            output += f" of {suit_map[self.suit]}"
+        return output
 
     # def __eq__(self, other_obj):
     #     return self.rank == other_obj.rank

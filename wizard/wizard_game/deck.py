@@ -1,5 +1,4 @@
 from .card import Card
-# from card import Card
 from random import shuffle
 
 suits = ["clubs", "diams", "spades", "hearts"]
@@ -18,8 +17,8 @@ class Deck:
 
         # addition of 4 jesters ('je') and 4 wizards ('w')
         for _ in range(4):
-            self.deck.append(Card('je', 0))
-            self.deck.append(Card('w', 0))
+            self.deck.append(Card('je'))
+            self.deck.append(Card('w'))
 
     def __str__(self):
         output = ""
@@ -47,5 +46,6 @@ class Deck:
 
 
 if __name__ == "__main__":
+    from card import Card
     d = Deck()
     print(d)
