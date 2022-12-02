@@ -1,5 +1,7 @@
-from card import Card
+from .card import Card
+# from card import Card
 from random import shuffle
+
 
 suits = ["clubs", "diams", "spades", "hearts"]
 ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a"]
@@ -35,11 +37,15 @@ class Deck:
             yield self.deck[i]
             i += 1
 
+    def __getitem__(self, i):
+        return self.deck[i]
+
     def shuffle(self):
         shuffle(self.deck)
 
     def deal(self):
-        return self.deck.pop()
+        if len(self.deck) > 0:
+            return self.deck.pop()
 
 
 if __name__ == "__main__":

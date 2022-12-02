@@ -1,87 +1,103 @@
-{% extends 'base.html' %} {% block header %}
-<h1>{% block title %}Play Wizard{% endblock %}</h1>
-{% if g.user %}
-<a class="action" href="{{ url_for('game.create') }}">New</a>
-{% endif %}
-<!-- 
-<div class="playingCards">
-    <ul class="table">
-        <li>
-            <a class="card rank-2 diams" href="#">
-                <span class="rank">2</span>
-                <span class="suit">&diams;</span>
-            </a>
-        </li>
-        <li>
-            <a class="card rank-q hearts" href="#">
-                <span class="rank">Q</span>
-                <span class="suit">&hearts;</span>
-            </a>
-        </li>
-        <li>
-            <a class="card rank-a clubs" href="#">
-                <span class="rank">A</span>
-                <span class="suit">&clubs;</span>
-            </a>
-        </li>
-        <li>
-            <strong>
-                <a class="card rank-3 hearts" href="#">
-                    <span class="rank">3</span>
-                    <span class="suit">&hearts;</span>
-                </a>
-            </strong>
-        </li>
-        <li>
-            <label for="c-10C" class="card rank-10 clubs">
-                <span class="rank">10</span>
-                <span class="suit">&clubs;</span>
-                <input type="checkbox" name="c-10C" id="c-10C" value="select" />
-            </label>
-        </li>
-        <li>
-            <label for="c-JD" class="card rank-j diams">
-                <span class="rank">J</span>
-                <span class="suit">&diams;</span>
-                <input type="checkbox" name="c-JD" id="c-JD" value="select" />
-            </label>
-        </li>
-        <li>
-            <label for="c-9S" class="card rank-9 spades">
-                <span class="rank">9</span>
-                <span class="suit">&spades;</span>
-                <input type="checkbox" name="c-9S" id="c-9S" value="select" />
-            </label>
-        </li>
-    </ul>
-</div> -->
-{% endblock %} {% block content %}
+{% extends 'base.html' %} 
+{% block header %}
+    <h1>{% block title %}Play Wizard{% endblock %}</h1>
+    {% if g.user %}
+        <a class="action" href="{{ url_for('game.create') }}">New</a>
+    {% endif %}
+{% endblock %} 
+{% block content %} 
 
-<div class="playingCards">
-    <ul class="table">
-        {% for card in deck %} {% if card.rank == 'w' %}
-        <li>
-            <a class="card little wizard" href="#">
-                <span class="rank">{{ card.rank.upper() }}</span>
-                <span class="suit">Wizard</span>
-            </a>
-        </li>
-        {% elif card.rank == 'je' %}
-        <li>
-            <a class="card little jester" href="#">
-                <span class="rank">{{ card.rank.upper() }}</span>
-                <span class="suit">Jester</span>
-            </a>
-        </li>
-        {% else %}
-        <li>
-            <a class="card rank-{{ card.rank }} {{ card.suit }}" href="#">
-                <span class="rank">{{ card.rank.upper() }}</span>
-                <span class="suit">&{{ card.suit }};</span>
-            </a>
-        </li>
-        {% endif %} {% endfor %}
-    </ul>
-</div>
+    {# player hands display #}
+    {% for hand in hands %}
+        <div class="playingCards">
+            <ul class="hand">
+                {% for card in hand %} 
+                    {% if card.rank == 'w' %}
+                        <li>
+                            <a class="card little wizard" href="#">
+                                <span class="rank">{{ card.rank.upper() }}</span>
+                                <span class="suit">Wizard</span>
+                            </a>
+                        </li>
+                    {% elif card.rank == 'je' %}
+                        <li>
+                            <a class="card little jester" href="#">
+                                <span class="rank">{{ card.rank.upper() }}</span>
+                                <span class="suit">Jester</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="card rank-{{ card.rank }} {{ card.suit }}" href="#">
+                                <span class="rank">{{ card.rank.upper() }}</span>
+                                <span class="suit">&{{ card.suit }};</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
 
+        {# Enter bid form #}
+        <form method="post">
+            <label for="bid-select">Select your bid</label>
+            <select name="bid" id="bid-select">
+                <option value="">--Please choose a bid--</option>
+                {% for int in range(handsize) %}
+                    <option value="{{ int + 1 }}">{{ int + 1 }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Select Bid" />
+        </form>
+    {% endfor %}
+
+    {# face down stack of cards display #}
+    <div class="playingCards">
+        <ul class="deck">
+            {% if 2 <= deck|length <= 10 %} 
+                {% for card in deck %}
+                    <li>
+                        <a class="card back" href="#"></a>
+                    </li>
+                {% endfor %}
+            {% elif deck|length > 10 %}
+                {% for card in range(10) %}
+                    <li>
+                        <a class="card back" href="#"></a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+
+    {# flipped card from top of deck (trump) #}
+    {# {% if %} #}
+    <div class="playingCards">
+        <ul class="deck">
+            {% if trump is defined and trump %} 
+                {% if trump.rank == 'w' %}
+                    <li>
+                        <a class="card little wizard" href="#">
+                            <span class="rank">{{ trump.rank.upper() }}</span>
+                            <span class="suit">Wizard</span>
+                        </a>
+                    </li>
+                {% elif trump.rank == 'je' %}
+                    <li>
+                        <a class="card little jester" href="#">
+                            <span class="rank">{{ trump.rank.upper() }}</span>
+                            <span class="suit">Jester</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="card rank-{{ trump.rank }} {{ trump.suit }}" href="#">
+                            <span class="rank">{{ trump.rank.upper() }}</span>
+                            <span class="suit">&{{ trump.suit }};</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}

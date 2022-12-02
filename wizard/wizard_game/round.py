@@ -1,6 +1,9 @@
-from exceptions import InvalidBidError, InvalidTrumpError
-from deck import Deck
-from hand import Hand
+from .exceptions import InvalidBidError, InvalidTrumpError
+from .deck import Deck
+from .hand import Hand
+# from exceptions import InvalidBidError, InvalidTrumpError
+# from deck import Deck
+# from hand import Hand
 
 
 class Round:
@@ -42,6 +45,11 @@ class Round:
                     self.trump = 'diams'
                 self.trump = selection
 
+    def set_trump(self):
+        trump_card = self.deck.deal()
+        self.trump = trump_card
+        return trump_card
+
     def get_trump(self) -> None:
         # if not last round, flip top card to reveal trump suit
         if self.hand_size != self.total_rounds:
@@ -78,11 +86,11 @@ class Round:
 
 
 if __name__ == "__main__":
-    r = Round(1, 3, 0)
+    r = Round(3, 4, 0)
     r.deal_hands()
+    # r.get_top_card()
     r.get_trump()
-    # if r.trump == 'dealers_call'
-    r.get_user_bids()
+    # r.get_user_bids()
     # r.play_round()
 
     # r.set_bid(0, 2)

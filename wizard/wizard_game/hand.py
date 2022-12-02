@@ -1,5 +1,6 @@
 from functools import cmp_to_key
-from card import Card
+from .card import Card
+# from card import Card
 
 # used by 'compare_cards' method to sort a given Hand
 suits = [None, "clubs", "diams", "spades", "hearts"]
@@ -9,6 +10,9 @@ ranks = ["je", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a",
 class Hand:
     def __init__(self) -> None:
         self.hand = []
+
+    def __getitem__(self, i):
+        return self.hand[i]
 
     def add_card(self, card: Card) -> None:
         self.hand.append(card)

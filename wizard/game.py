@@ -1,4 +1,4 @@
-from wizard.wizard_game.deck import Deck
+from wizard.wizard_game.round import Round
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -106,13 +106,18 @@ def delete(id):
 @bp.route('/play', methods=('GET', 'POST'))
 @login_required
 def play():
-    deck = Deck()
-    # print(deck)
+    round = Round(20, 3, 0)
+    round.deal_hands()
+    deck = round.deck
+    trump = round.set_trump()
+
+    # round.get_user_bids()
+
     # get_game(id)
     # db = get_db()
     # db.execute('DELETE FROM game WHERE id = ?', (id,))
     # db.commit()
-    return render_template('game/play.html', deck=deck)
+    return render_template('game/play.html', hands=round.player_hands, deck=deck, trump=trump, handsize=round.hand_size)
     # return render_template('game/play.html')
 
 # @bp.route('/<int:id>/play', methods=('GET', 'POST'))
