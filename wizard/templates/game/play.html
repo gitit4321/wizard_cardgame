@@ -8,10 +8,10 @@
 {% block content %} 
 
     {# player hands display #}
-    {% for hand in hands %}
+    {% for i in range(hands|length) %}
         <div class="playingCards">
             <ul class="hand">
-                {% for card in hand %} 
+                {% for card in hands[i] %} 
                     {% if card.rank == 'w' %}
                         <li>
                             <a class="card little wizard" href="#">
@@ -37,11 +37,12 @@
                 {% endfor %}
             </ul>
         </div>
+        <p>Current bid: {{ round.bids[i] }}</p>
 
         {# Enter bid form #}
         <form method="post">
-            <label for="bid-select">Select your bid</label>
-            <select name="bid" id="bid-select">
+            <label for="bid-{{ i }}">Select your bid</label>
+            <select name="bid-{{ i }}" id="bid-{{ i }}">
                 <option value="">--Please choose a bid--</option>
                 {% for int in range(handsize) %}
                     <option value="{{ int + 1 }}">{{ int + 1 }}</option>

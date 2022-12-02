@@ -103,21 +103,50 @@ def delete(id):
     return redirect(url_for('game.index'))
 
 
+round = Round(20, 3, 0)
+round.deal_hands()
+deck = round.deck
+trump = round.set_trump()
+
+
 @bp.route('/play', methods=('GET', 'POST'))
 @login_required
 def play():
-    round = Round(20, 3, 0)
-    round.deal_hands()
-    deck = round.deck
-    trump = round.set_trump()
 
-    # round.get_user_bids()
+    if request.method == 'POST':
+        if 'bid-0' in request.form:
+            player = 0
+            bid = request.form['bid-0']
+        elif 'bid-1' in request.form:
+            player = 1
+            bid = request.form['bid-1']
+        elif 'bid-2' in request.form:
+            player = 2
+            bid = request.form['bid-2']
+        elif 'bid-3' in request.form:
+            player = 3
+            bid = request.form['bid-3']
+        elif 'bid-4' in request.form:
+            player = 4
+            bid = request.form['bid-4']
+        elif 'bid-5' in request.form:
+            player = 5
+            bid = request.form['bid-5']
 
-    # get_game(id)
-    # db = get_db()
-    # db.execute('DELETE FROM game WHERE id = ?', (id,))
-    # db.commit()
-    return render_template('game/play.html', hands=round.player_hands, deck=deck, trump=trump, handsize=round.hand_size)
+        error = None
+
+        if not bid:
+            error = 'A bid is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            # print(request.form.keys())
+            print(f"Bid was {bid}")
+            round.set_bid(player, int(bid))
+            return redirect(url_for('game.play'))
+
+    return render_template('game/play.html', round=round, hands=round.player_hands, deck=deck, trump=trump, handsize=round.hand_size)
     # return render_template('game/play.html')
 
 # @bp.route('/<int:id>/play', methods=('GET', 'POST'))
